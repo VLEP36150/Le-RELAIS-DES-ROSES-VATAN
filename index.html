@@ -1,1 +1,232 @@
 
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LE RELAIS DES ROSES – VATAN</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
+    <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 12px 10px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .address {
+            color: #555;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .subtitle {
+            color: #3498db;
+            margin: 5px 0 0;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        #panorama {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            background-color: #000;
+        }
+
+        .bottom-nav {
+            display: flex;
+            gap: 6px;
+            padding: 10px 8px;
+            background: #222;
+            justify-content: center;
+            flex-wrap: wrap;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        .nav-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background-color 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .nav-btn.active {
+            background-color: #1d5f8d;
+            outline: 2px solid white;
+        }
+
+        .footer {
+            background: #222;
+            color: #ccc;
+            text-align: center;
+            font-size: 0.75em;
+            padding: 6px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.1em;
+            }
+
+            .address {
+                font-size: 0.85em;
+            }
+
+            .nav-btn {
+                font-size: 0.8em;
+                padding: 10px 9px;
+            }
+
+            .bottom-nav {
+                gap: 5px;
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>LE RELAIS DES ROSES</h1>
+
+        <p class="address">
+            VATAN
+        </p>
+
+        <p class="subtitle" id="current-title">
+            Visite virtuelle 360° – Véranda
+        </p>
+
+    </div>
+
+    <div id="panorama"></div>
+
+    <div class="bottom-nav">
+
+        <button class="nav-btn active"
+            onclick="changerScene('veranda', 'Véranda', this)">
+            🌿 Véranda
+        </button>
+
+        <button class="nav-btn"
+            onclick="changerScene('petitdejeuner1', 'Salle de petit déjeuner', this)">
+            🍽️ Petit déjeuner 1
+        </button>
+
+        <button class="nav-btn"
+            onclick="changerScene('petitdejeuner2', 'Salle de petit déjeuner – seconde vue', this)">
+            🍽️ Petit déjeuner 2
+        </button>
+
+        <button class="nav-btn"
+            onclick="changerScene('accesetage', 'Escalier d’accès aux chambres', this)">
+            🪜 Accès étage
+        </button>
+
+    </div>
+
+    <div class="footer">
+        Visite virtuelle panoramique 360° – LE RELAIS DES ROSES
+    </div>
+
+    <script>
+
+        const viewer = pannellum.viewer('panorama', {
+
+            "default": {
+                "firstScene": "veranda",
+                "autoLoad": true,
+                "compass": true,
+                "hfov": 100,
+                "showControls": true,
+                "sceneFadeDuration": 500
+            },
+
+            "scenes": {
+
+                "veranda": {
+                    "type": "equirectangular",
+                    "panorama": "veranda.JPG"
+                },
+
+                "petitdejeuner1": {
+                    "type": "equirectangular",
+                    "panorama": "salle_petit_dejeuner.JPG"
+                },
+
+                "petitdejeuner2": {
+                    "type": "equirectangular",
+                    "panorama": "petit_dejeuner_2.JPG"
+                },
+
+                "accesetage": {
+                    "type": "equirectangular",
+                    "panorama": "acces_etage.JPG"
+                }
+
+            }
+
+        });
+
+        function changerScene(sceneId, titrePiece, bouton) {
+
+            document.getElementById('current-title').innerText =
+                "Visite virtuelle 360° – " + titrePiece;
+
+            viewer.loadScene(sceneId);
+
+            document.querySelectorAll('.nav-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+
+            bouton.classList.add('active');
+        }
+
+    </script>
+
+</body>
+</html>
+
